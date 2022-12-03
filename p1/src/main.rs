@@ -52,4 +52,3 @@ fn find_best3_sum(s: &String) -> usize {
     }
     best3[0] + best3[1] + best3[2]
 }
-
