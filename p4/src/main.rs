@@ -69,7 +69,9 @@ fn solution2(s: &String) -> usize {
         'outer: for a in 0..2 {
             for b in 0..2 {
                 if a != b {
-                    if (low[a] <= low[b] && low[b] <= high[a]) || (low[a] <= high[b] && high[b] <= high[a]) {
+                    if (low[a] <= low[b] && low[b] <= high[a])
+                        || (low[a] <= high[b] && high[b] <= high[a])
+                    {
                         num_overlapping += 1;
                         break 'outer;
                     }
