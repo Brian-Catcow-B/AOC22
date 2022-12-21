@@ -31,10 +31,6 @@ impl Pos2d {
     fn new(y: isize, x: isize) -> Self {
         Self { y, x }
     }
-
-    fn distance(self, other: Self) -> isize {
-        (self.y - other.y).abs() + (self.x - other.x).abs()
-    }
 }
 
 impl From<Direction> for Pos2d {
@@ -88,7 +84,6 @@ fn solution1(s: &String) -> usize {
             .parse()
             .expect("bad number");
         for _ in 0..num_movements {
-            println!("head: {:?}, tail: {:?}", head_pos, tail_pos);
             head_pos = head_pos + movement;
             // handle out of bounds case (only head can go out of bounds logically)
             if head_pos.y == -1 {
@@ -99,7 +94,6 @@ fn solution1(s: &String) -> usize {
                 for _ in 0..x_len {
                     exp_matrix[0].push(0);
                 }
-                println!("push up");
             } else if head_pos.y == exp_matrix.len() as isize {
                 let x_len = exp_matrix[0].len();
                 let y_len_before = exp_matrix.len();
@@ -107,23 +101,20 @@ fn solution1(s: &String) -> usize {
                 for _ in 0..x_len {
                     exp_matrix[y_len_before].push(0);
                 }
-                println!("push down");
             } else if head_pos.x == -1 {
                 for v in exp_matrix.iter_mut() {
                     v.insert(0, 0);
                 }
                 head_pos.x = 0;
                 tail_pos.x += 1;
-                println!("push left");
             } else if head_pos.x == exp_matrix[0].len() as isize {
                 for v in exp_matrix.iter_mut() {
                     v.push(0);
                 }
-                println!("push right");
             }
             let y_eq: bool = head_pos.y == tail_pos.y;
             let x_eq: bool = head_pos.x == tail_pos.x;
-            if head_pos.distance(tail_pos) == 1 {
+            if (head_pos.y - tail_pos.y).abs() < 2 && (head_pos.x - tail_pos.x).abs() < 2 {
                 continue;
             }
             if y_eq && x_eq {
@@ -152,10 +143,6 @@ fn solution1(s: &String) -> usize {
                     tail_pos.y -= 1;
                 }
             }
-            println!(
-                "PRE MATRIX SET... head: {:?}, tail: {:?}",
-                head_pos, tail_pos
-            );
             // set tail position in matrix to 1
             exp_matrix[tail_pos.y as usize][tail_pos.x as usize] = 1;
         }
